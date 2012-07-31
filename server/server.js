@@ -4,9 +4,7 @@ var url = require('url');
 var handler = require('./handler');
 
 var handle = {};
-handle['/'] = handler.get;
-handle['/get'] = handler.get;
-handle['/post'] = handler.post;
+handle['/'] = handler.handle;
 
 
 function onRequest(request, response) {

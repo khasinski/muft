@@ -1,3 +1,10 @@
+var handle = function(request) { 
+  return ('POST'==request.method) ?
+    post(request)
+  :
+    get(request);
+}
+
 var get = function (request) { 
   console.log('get');
   return [
@@ -19,5 +26,4 @@ var post = function (request) {
   return 0;
 }
 
-exports.post = post;
-exports.get = get;
+exports.handle = handle;
