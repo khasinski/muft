@@ -6,7 +6,7 @@ var handler = require('./handler');
 var handle = {};
 handle['/'] = handler.get;
 handle['/get'] = handler.get;
-handle['/put'] = handler.put;
+handle['/post'] = handler.post;
 
 
 function onRequest(request, response) {
