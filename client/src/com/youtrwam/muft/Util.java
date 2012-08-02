@@ -7,7 +7,6 @@ import android.content.res.Resources;
 
 public class Util {
 	public static String TAG = "muft";
-	public static String URL = "http://youtrwam.com:8888/";
 
 	public static Util i;
 
@@ -21,11 +20,11 @@ public class Util {
 		final Resources resources = activity.getResources();
 		final Properties prop = new Properties();
 		try {
-			prop.load(resources.openRawResource(R.raw.base));
+			prop.load(resources.openRawResource(R.raw.config));
 		} catch (final Exception _) {
 		}
 		try {
-			prop.load(resources.openRawResource(R.raw.class.getDeclaredField("config").getInt(null)));
+			prop.load(resources.openRawResource(R.raw.class.getDeclaredField("local").getInt(null)));
 		} catch (final Exception _) {
 		}
 

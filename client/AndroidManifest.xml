@@ -6,7 +6,10 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="15" />
-    <uses-permission android:name="android.permission.INTERNET"/>z
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.PERSISTENT_ACTIVITY"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>z
 
     <application
         android:icon="@drawable/ic_launcher"
@@ -21,6 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:label="location service" android:exported="false" android:name=".LocationService" android:enabled="true"></service>
+        <receiver android:exported="false" android:label="location receiver" android:name=".LocationReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="com.youtrwam.muft.action.LOCATION"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
