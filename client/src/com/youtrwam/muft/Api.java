@@ -14,21 +14,22 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.CoreProtocolPNames;
 import org.json.JSONArray;
-import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.util.Log;
 
 public class Api {
 	private String post(final String url, final String body) throws Exception {
+		Log.d(Util.TAG, String.format("request %s [%s]", url, body));
 		final HttpClient httpclient = new DefaultHttpClient();
 		HttpUriRequest request;
 		if (null != body) {
-			final HttpPost post = new HttpPost(Util.URL);
+			final HttpPost post = new HttpPost(Util.i.prop.getProperty("api.url"));
 			post.getParams().setParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, Boolean.FALSE);
 			post.setEntity(new StringEntity(body, "utf-8"));
 			request = post;
 		} else
-			request = new HttpGet(Util.URL);
+			request = new HttpGet(Util.i.prop.getProperty("api.url"));
 		request.getParams().setParameter(CoreProtocolPNames.HTTP_ELEMENT_CHARSET, "utf-8");
 		try {
 			final HttpResponse httpResponse = httpclient.execute(request);
@@ -54,16 +55,21 @@ public class Api {
 		Log.d(Util.TAG, result);
 		return result;
 	}
-	
+
 	public JSONArray getMessages() {
 		try {
 			return new JSONArray(post("/", null));
-		} catch (final JSONException e) {
+		} catch (final Exception e) {
 			Log.e(Util.TAG, e.getMessage(), e);
 			return new JSONArray();
+		}
+	}
+
+	public void postMessage(final JSONObject message) {
+		try {
+			post("/", message.toString());
 		} catch (final Exception e) {
-			e.printStackTrace();
-			return new JSONArray();
+			Log.e(Util.TAG, e.getMessage(), e);
 		}
 	}
 }

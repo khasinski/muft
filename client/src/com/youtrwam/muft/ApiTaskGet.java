@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class ApiTask extends AsyncTask<ApiTask.Params, Void, ApiTask.Result> {
+public class ApiTaskGet extends AsyncTask<ApiTaskGet.Params, Void, ApiTaskGet.Result> {
 	static class Params {
 		final MainActivity activity;
 
