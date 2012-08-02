@@ -7,13 +7,14 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
-	private final Timer timer = new Timer();
+	private Timer timer;
 	private ArrayAdapter<String> data;
 
 	@Override
@@ -28,17 +29,7 @@ public class MainActivity extends Activity {
 
 		view.setAdapter(data);
 
-		timer.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						new ApiTask().execute(new ApiTask.Params(MainActivity.this));
-					}
-				});
-			}
-		}, 0, TimeUnit.SECONDS.toMillis(Integer.parseInt(Util.i.prop.getProperty("api.interval"))));
+		startService(new Intent(this, LocationService.class));
 	}
 
 	@Override
@@ -54,4 +45,30 @@ public class MainActivity extends Activity {
 		data.notifyDataSetChanged();
 	}
 
+	@Override
+	protected void onPause() {
+		timer.cancel();
+		timer.purge();
+		timer = null;
+
+		super.onPause();
+	}
+
+	@Override
+	protected void onPostResume() {
+		super.onPostResume();
+
+		timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						new ApiTaskGet().execute(new ApiTaskGet.Params(MainActivity.this));
+					}
+				});
+			}
+		}, 0, TimeUnit.SECONDS.toMillis(Integer.parseInt(Util.i.prop.getProperty("api.interval"))));
+	}
 }
